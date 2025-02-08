@@ -1,6 +1,8 @@
 import os
 import glob
+import json
 import jsonlines
+
 
 from itertools import groupby
 from typing import List, Dict
@@ -10,8 +12,16 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_openai import AzureChatOpenAI
 
+from pydantic_settings import BaseSettings
+
 from src.models.signal import Envelope
 from src.models.azure_openai import azure_open_ai_config
+
+class ChatConfig(BaseSettings):
+    data_path: str
+
+    class Config:
+        env_prefix = 'CHAT_'
 
 def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
     """
@@ -22,7 +32,7 @@ def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
     Returns:
         List[Dict]: A list of dictionaries representing the latest n chat messages.
     """
-    files = glob.glob(os.path.join(chat_folder_path, '*.jsonl'))
+    files = glob.glob(chat_folder_path)
     files.sort(key=os.path.getmtime, reverse=True)
     
     messages: List[str] = [''] * n
@@ -33,7 +43,7 @@ def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
         with jsonlines.open(file) as reader:
             for message in reader:
                 if count < n:
-                    messages[count] = message
+                    messages[count] = json.loads(message)
                     count += 1
                 else:
                     break
@@ -51,10 +61,12 @@ def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     """
     envelopes_stream = [Envelope(**envelope) for envelope in chat_messages]
 
-    envelopes_stream.sort(
+    envelopes_stream = sorted(
+        envelopes_stream, 
         key=lambda x: x.timestamp, 
-        ascending=False
+        reverse=True
     )
+
     envelopes_stream_grouped = groupby(
         envelopes_stream, 
         key=lambda x: x.sourceName
@@ -62,7 +74,7 @@ def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     
     envelopes = []
     for _, group in envelopes_stream_grouped:
-        messages = [envelope.message for envelope in group]
+        messages = [envelope.get_message().message for envelope in group]
         envelopes.append("\n".join(messages))
     
     return envelopes
@@ -84,7 +96,8 @@ You are an AI assistant. Your task is to summarize the messages that comes from 
 - make sure to read it carefully before providing an answer,
 - make sure to provide a concise summary,
 - if in the chat are multiple threads make sure to organize the summary in a logical way, and format your answer using markdown syntax.
-- messages may be from different users, you don't have to consider the user who sent the message, just the content of the message.
+- messages may be from different users, you don't have to consider the user who sent the message, just the content of the message,
+- make sure to return response in original language.
 
 Messages:
 {messages}
@@ -101,8 +114,10 @@ Summary:
         | output_parser
     )
 
-    chat_messages = load_chat_messages(n)
+    chat_messages = load_chat_messages(
+        chat_folder_path=ChatConfig().data_path,
+        n=n)
     summarized_messages = process_chat_messages(chat_messages)
 
-    response = summary_chain.invoke(messages=summarized_messages)
+    response = summary_chain.invoke(input={'messages':summarized_messages})
     return response

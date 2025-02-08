@@ -5,22 +5,11 @@ import os
 from pydantic import ValidationError
 from datetime import datetime as dt
 
-from langchain_openai import AzureChatOpenAI
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
-
 from src.models.signal import *
-from src.models.azure_openai import azure_open_ai_config
 from src.handlers import ReceiveProcess, SendMessage
 from src.logger import logger
 
-# simple_request_chain = (
-#     {'input': RunnablePassthrough()}
-#     | AzureChatOpenAI(**azure_open_ai_config.model_dump())
-#     | StrOutputParser()
-# )
-
-llm = AzureChatOpenAI(**azure_open_ai_config.model_dump())
+from src.agent import invoke
 
 def save_envelope(envelope: Envelope):
     file_path = os.path.join(
@@ -60,7 +49,7 @@ def monitor_incoming_msgs():
 
             # signal cli limitation - you can only have one process running at a time
             llm_input = message.message.replace("@bot", "").strip()
-            llm_response = llm.invoke(llm_input).content
+            llm_response = invoke(llm_input)
 
             chat_response = (
                 f"[{envelope.sourceName}]\n"
