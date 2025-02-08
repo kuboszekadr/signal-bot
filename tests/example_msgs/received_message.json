@@ -1,0 +1,30 @@
+{
+    "envelope": {
+        "source": "+48692820930",
+        "sourceNumber": "+48692820930",
+        "sourceUuid": "932753e4-8c0a-4dde-87aa-a116b0c4949a",
+        "sourceName": "Adrian Q*",
+        "sourceDevice": 6,
+        "timestamp": 1738756481849,
+        "serverReceivedTimestamp": 1738756482221,
+        "serverDeliveredTimestamp": 1738756482223,
+        "syncMessage": {
+            "sentMessage": {
+                "destination": null,
+                "destinationNumber": null,
+                "destinationUuid": null,
+                "timestamp": 1738756481849,
+                "message": "@bot czy będzie dzisiaj spamowane?",
+                "expiresInSeconds": 0,
+                "viewOnce": false,
+                "groupInfo": {
+                    "groupId": "iwkWWvQFIbqjqoFf6g23HzUqFV4xb3QrD0eINqn5vkA=",
+                    "groupName": "Auradyny",
+                    "revision": 14,
+                    "type": "DELIVER"
+                }
+            }
+        }
+    },
+    "account": "+48692820930"
+}
