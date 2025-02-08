@@ -9,7 +9,7 @@ from src.models.signal import *
 from src.handlers import ReceiveProcess, SendMessage
 from src.logger import logger
 
-from src.agent import invoke
+from src.agent.agent import invoke
 
 def save_envelope(envelope: Envelope):
     file_path = os.path.join(
@@ -49,7 +49,7 @@ def monitor_incoming_msgs():
 
             # signal cli limitation - you can only have one process running at a time
             llm_input = message.message.replace("@bot", "").strip()
-            llm_response = invoke(llm_input)
+            llm_response = invoke(llm_input).content
 
             chat_response = (
                 f"[{envelope.sourceName}]\n"

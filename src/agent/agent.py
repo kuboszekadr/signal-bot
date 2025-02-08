@@ -36,7 +36,7 @@ def print_stream(stream) -> str:
             print(message)
         else:
             message.pretty_print()
-    return s
+    return message
 
 def invoke(msg: str) -> str:
     """

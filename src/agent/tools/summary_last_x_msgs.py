@@ -41,7 +41,8 @@ def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
     # read the latest n messages from the chat
     for file in files:
         with jsonlines.open(file) as reader:
-            for message in reader:
+            lines = list(reader)
+            for message in reversed(lines):
                 if count < n:
                     messages[count] = json.loads(message)
                     count += 1
@@ -104,6 +105,7 @@ Messages:
 
 Summary:
 """
+    n = max(50, n)
     summary_prompt = PromptTemplate(
         template=prompt_template_str,
     )
