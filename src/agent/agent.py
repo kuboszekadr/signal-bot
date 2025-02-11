@@ -50,7 +50,7 @@ def invoke(msg: str, chat_id: Optional[str] = "") -> str:
     """
 
     if chat_id == "":
-        return llm.invoke(msg).content
+        return llm.invoke(msg)
 
     agent = create_react_agent(
         model=llm,

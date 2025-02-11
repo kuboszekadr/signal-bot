@@ -51,7 +51,7 @@ def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
         if count >= n:
             break
     messages = messages
-    return messages
+    return messages[:count]
 
 def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     """
@@ -120,6 +120,7 @@ Summary:
     chat_folder_path = os.path.join(
         ChatConfig().data_path,
         chat_id,
+        '**/*.jsonl'
     )
     chat_messages = load_chat_messages(
         chat_folder_path=chat_folder_path,

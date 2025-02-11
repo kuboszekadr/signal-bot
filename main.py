@@ -49,26 +49,29 @@ def monitor_incoming_msgs():
             receive_process.kill()
 
             # signal cli limitation - you can only have one process running at a time
-            # llm_input = message.message.replace("@bot", "").strip()
-            # llm_response = invoke(llm_input).content
+            llm_input = message.message.replace("@bot", "").strip()
+            llm_response = invoke(
+                msg=llm_input, 
+                chat_id=envelope.chat_id()
+            ).content
 
-            # chat_response = (
-            #     f"[{envelope.sourceName}]\n"
-            #     f"{message.message}\n\n"
-            #     "[AuraBot]\n"
-            #     f"{llm_response}\n"
-            #     "[AuraBot]"
-            # )
+            chat_response = (
+                f"[{envelope.sourceName}]\n"
+                f"{message.message}\n\n"
+                "[AuraBot]\n"
+                f"{llm_response}\n"
+                "[AuraBot]"
+            )
 
-            # if message.groupInfo is None:
-            #     kwargs = {'--username': envelope.sourceUuid}
-            # else:
-            #     kwargs = {'--group-id': message.groupInfo.groupId}
+            if message.groupInfo is None:
+                kwargs = {'--username': envelope.sourceUuid}
+            else:
+                kwargs = {'--group-id': message.groupInfo.groupId}
 
-            # SendMessage().send_message(
-            #     msg=chat_response,
-            #     kwargs=kwargs
-            # )
+            SendMessage().send_message(
+                msg=chat_response,
+                kwargs=kwargs
+            )
             receive_process = ReceiveProcess().start_receive_process()
 
 monitor_incoming_msgs()
