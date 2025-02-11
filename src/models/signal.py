@@ -1,5 +1,3 @@
-import jsonlines
-
 from pydantic import BaseModel
 from typing import Optional, List, Union
 
@@ -78,6 +76,7 @@ class Envelope(BaseModel):
     editMessage: Optional[EditMessage] = None
     dataMessage: Optional[DataMessage] = None
     syncMessage: Optional[SyncMessage] = None
+    sentMessage: Optional[SentMessage] = None
 
     def get_message(self) -> Union[DataMessage, SentMessage, None]:
         """Returns DataMessage object from the envelope"""
@@ -90,6 +89,16 @@ class Envelope(BaseModel):
             msg = self.syncMessage.sentMessage
 
         return msg
+    
+    def chat_id(self):
+        message = self.get_message()
+        if message.groupInfo is not None:
+            return message.groupInfo.groupId
+
+        if type(message) == SentMessage:
+            return message.destinationUuid
+
+        return message.sourceUuid 
 
 
 class MessageModel(BaseModel):

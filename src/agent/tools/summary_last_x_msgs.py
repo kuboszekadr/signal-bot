@@ -81,12 +81,13 @@ def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     return envelopes
 
 @tool
-def summarize_last_x_msgs(n: int) -> List[str]:
+def summarize_last_x_msgs(n: int, chat_id: str) -> List[str]:
     """
     Summarizes the last 'n' messages from a chat.
 
     Args:
         n (int): The number of recent messages to summarize.
+        chat_id (str): The chat ID to summarize the messages from.
 
     Returns:
         List[str]: A list containing the summarized messages.
@@ -116,8 +117,12 @@ Summary:
         | output_parser
     )
 
+    chat_folder_path = os.path.join(
+        ChatConfig().data_path,
+        chat_id,
+    )
     chat_messages = load_chat_messages(
-        chat_folder_path=ChatConfig().data_path,
+        chat_folder_path=chat_folder_path,
         n=n)
     summarized_messages = process_chat_messages(chat_messages)
 

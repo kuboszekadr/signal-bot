@@ -14,11 +14,11 @@
                 "destinationNumber": null,
                 "destinationUuid": null,
                 "timestamp": 1609459200000,
-                "message": "REDACTED",
+                "message": "Some random text just for testing",
                 "expiresInSeconds": 0,
                 "viewOnce": false,
                 "groupInfo": {
-                    "groupId": "REDACTED",
+                    "groupId": "123456",
                     "groupName": "REDACTED",
                     "revision": 14,
                     "type": "DELIVER"
