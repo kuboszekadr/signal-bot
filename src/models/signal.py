@@ -98,7 +98,7 @@ class Envelope(BaseModel):
         if type(message) == SentMessage:
             return message.destinationUuid
 
-        return message.sourceUuid 
+        return self.sourceUuid 
 
 
 class MessageModel(BaseModel):
