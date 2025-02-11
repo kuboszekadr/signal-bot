@@ -30,10 +30,10 @@ class ReceiveProcess:
         self.kill()
 
 class SendMessage:
-    def send_message(self, msg: str, kwargs: dict) -> subprocess.Popen:
+    def send_message(self, msg: str, params: list) -> subprocess.Popen:
         args = ['/home/azureuser/signal-cli/signal-cli-0.13.12/bin/signal-cli', 'send']
         args += ['--message', msg]
-        args += (list(*kwargs.items()))
+        args += params
         
         process = subprocess.Popen(
             args,

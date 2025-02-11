@@ -64,13 +64,13 @@ def monitor_incoming_msgs():
             )
 
             if message.groupInfo is None:
-                kwargs = {'--username': envelope.sourceUuid}
+                args = [envelope.chat_id()]
             else:
-                kwargs = {'--group-id': message.groupInfo.groupId}
+                args = ['--group-id', message.groupInfo.groupId]
 
             SendMessage().send_message(
                 msg=chat_response,
-                kwargs=kwargs
+                params=args
             )
             receive_process = ReceiveProcess().start_receive_process()
 
