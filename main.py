@@ -58,7 +58,16 @@ def monitor_incoming_msgs():
                 f"{llm_response}\n"
                 "[AuraBot]"
             )
-            SendMessage(chat_response).send_message_to_group()
+
+            if message.groupInfo is None:
+                kwargs = {'--username': envelope.sourceUuid}
+            else:
+                kwargs = {'--group-id': message.groupInfo.groupId}
+
+            SendMessage().send_message(
+                msg=chat_response,
+                kwargs=kwargs
+            )
             receive_process = ReceiveProcess().start_receive_process()
 
 monitor_incoming_msgs()

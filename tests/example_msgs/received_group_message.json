@@ -6,25 +6,17 @@
         "sourceName": "REDACTED",
         "sourceDevice": 6,
         "timestamp": 1609459200000,
-        "serverReceivedTimestamp": 1609459200000,
-        "serverDeliveredTimestamp": 1609459200000,
+        "serverReceivedTimestamp": 1609459200343,
+        "serverDeliveredTimestamp": 1609459200345,
         "syncMessage": {
             "sentMessage": {
                 "destination": null,
                 "destinationNumber": null,
                 "destinationUuid": null,
                 "timestamp": 1609459200000,
-                "message": "This is a random message",
+                "message": "REDACTED",
                 "expiresInSeconds": 0,
                 "viewOnce": false,
-                "quote": {
-                    "id": 1609459200000,
-                    "author": "REDACTED",
-                    "authorNumber": "REDACTED",
-                    "authorUuid": "REDACTED",
-                    "text": "This is a random quote text",
-                    "attachments": []
-                },
                 "groupInfo": {
                     "groupId": "REDACTED",
                     "groupName": "REDACTED",

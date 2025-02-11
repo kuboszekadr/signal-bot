@@ -1,0 +1,26 @@
+{
+    "envelope": {
+        "source": "REDACTED",
+        "sourceNumber": "REDACTED",
+        "sourceUuid": "REDACTED",
+        "sourceName": "REDACTED",
+        "sourceDevice": 6,
+
+        "timestamp": 1609459200000,
+        "serverReceivedTimestamp": 1609459200000,
+        "serverDeliveredTimestamp": 1609459200000,
+        
+        "syncMessage": {
+            "sentMessage": {
+                "destination": "REDACTED",
+                "destinationNumber": "REDACTED",
+                "destinationUuid": "REDACTED",
+                "timestamp": 1609459200000,
+                "message": "This is a random message",
+                "expiresInSeconds": 0,
+                "viewOnce": false
+            }
+        }
+    },
+    "account": "REDACTED"
+}

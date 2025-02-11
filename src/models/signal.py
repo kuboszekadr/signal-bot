@@ -14,7 +14,7 @@ class DataMessage(BaseModel):
     message: str
     expiresInSeconds: int
     viewOnce: bool
-    groupInfo: GroupInfo
+    groupInfo: Optional[GroupInfo] = None
 
     def is_ai_call(self):
         return (
@@ -43,7 +43,7 @@ class SentMessage(BaseModel):
     message: str
     expiresInSeconds: int
     viewOnce: bool
-    groupInfo: GroupInfo
+    groupInfo: Optional[GroupInfo] = None
     quote: Optional[Quota] = None
 
     def is_ai_call(self):
