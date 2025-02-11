@@ -50,9 +50,14 @@ def monitor_incoming_msgs():
 
             # signal cli limitation - you can only have one process running at a time
             llm_input = message.message.replace("@bot", "").strip()
+            context = ''
+            if message.quote is not None:
+                context = message.quote.text
+
             llm_response = invoke(
                 msg=llm_input, 
-                chat_id=envelope.chat_id()
+                chat_id=envelope.chat_id(),
+                context=context
             ).content
 
             chat_response = (

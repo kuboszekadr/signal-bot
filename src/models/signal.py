@@ -7,12 +7,21 @@ class GroupInfo(BaseModel):
     revision: int
     type: str
 
+class Quote(BaseModel):
+    id: int
+    author: str
+    authorNumber: str
+    authorUuid: str
+    text: str
+    attachments: List[str]
+
 class DataMessage(BaseModel):
     timestamp: int
     message: str
     expiresInSeconds: int
     viewOnce: bool
     groupInfo: Optional[GroupInfo] = None
+    quote: Optional[Quote] = None
 
     def is_ai_call(self):
         return (
@@ -25,14 +34,6 @@ class EditMessage(BaseModel):
     targetSentTimestamp: int
     dataMessage: DataMessage
 
-class Quota(BaseModel):
-    id: int
-    author: str
-    authorNumber: str
-    authorUuid: str
-    text: str
-    attachments: List[str]
-
 class SentMessage(BaseModel):
     destination: Optional[str]
     destinationNumber: Optional[str]
@@ -42,7 +43,7 @@ class SentMessage(BaseModel):
     expiresInSeconds: int
     viewOnce: bool
     groupInfo: Optional[GroupInfo] = None
-    quote: Optional[Quota] = None
+    quote: Optional[Quote] = None
 
     def is_ai_call(self):
         return (

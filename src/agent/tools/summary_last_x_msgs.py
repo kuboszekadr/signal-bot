@@ -106,7 +106,7 @@ Messages:
 
 Summary:
 """
-    n = max(50, n)
+    n = min(50, n)
     summary_prompt = PromptTemplate(
         template=prompt_template_str,
     )
