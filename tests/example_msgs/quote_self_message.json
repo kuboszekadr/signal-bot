@@ -1,0 +1,38 @@
+{
+    "envelope": {
+        "source": "REDACTED",
+        "sourceNumber": "REDACTED",
+        "sourceUuid": "REDACTED",
+        "sourceName": "REDACTED",
+        "sourceDevice": 6,
+        "timestamp": 1609459200000,
+        "serverReceivedTimestamp": 1609459200000,
+        "serverDeliveredTimestamp": 1609459200000,
+        "syncMessage": {
+            "sentMessage": {
+                "destination": null,
+                "destinationNumber": null,
+                "destinationUuid": null,
+                "timestamp": 1609459200000,
+                "message": "This is a random message",
+                "expiresInSeconds": 0,
+                "viewOnce": false,
+                "quote": {
+                    "id": 1609459200000,
+                    "author": "REDACTED",
+                    "authorNumber": "REDACTED",
+                    "authorUuid": "REDACTED",
+                    "text": "This is a random quote text",
+                    "attachments": []
+                },
+                "groupInfo": {
+                    "groupId": "REDACTED",
+                    "groupName": "REDACTED",
+                    "revision": 14,
+                    "type": "DELIVER"
+                }
+            }
+        }
+    },
+    "account": "REDACTED"
+}

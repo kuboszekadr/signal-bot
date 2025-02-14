@@ -1,38 +1,33 @@
 {
     "envelope": {
-        "source": "REDACTED",
-        "sourceNumber": "REDACTED",
-        "sourceUuid": "REDACTED",
-        "sourceName": "REDACTED",
-        "sourceDevice": 6,
+        "source": "+1234567890",
+        "sourceNumber": "+1234567890",
+        "sourceUuid": "00000000-0000-0000-0000-000000000000",
+        "sourceName": "User",
+        "sourceDevice": 2,
         "timestamp": 1609459200000,
         "serverReceivedTimestamp": 1609459200000,
         "serverDeliveredTimestamp": 1609459200000,
-        "syncMessage": {
-            "sentMessage": {
-                "destination": null,
-                "destinationNumber": null,
-                "destinationUuid": null,
-                "timestamp": 1609459200000,
-                "message": "This is a random message",
-                "expiresInSeconds": 0,
-                "viewOnce": false,
-                "quote": {
-                    "id": 1609459200000,
-                    "author": "REDACTED",
-                    "authorNumber": "REDACTED",
-                    "authorUuid": "REDACTED",
-                    "text": "This is a random quote text",
-                    "attachments": []
-                },
-                "groupInfo": {
-                    "groupId": "REDACTED",
-                    "groupName": "REDACTED",
-                    "revision": 14,
-                    "type": "DELIVER"
-                }
+        "dataMessage": {
+            "timestamp": 1609459200000,
+            "message": "This is a random sentence for testing purposes.",
+            "expiresInSeconds": 0,
+            "viewOnce": false,
+            "quote": {
+                "id": 1609459200000,
+                "author": "00000000-0000-0000-0000-000000000000",
+                "authorNumber": null,
+                "authorUuid": "00000000-0000-0000-0000-000000000000",
+                "text": "Another random sentence for testing.",
+                "attachments": []
+            },
+            "groupInfo": {
+                "groupId": "0000000000000000000000000000000000000000000=",
+                "groupName": "TestGroup",
+                "revision": 14,
+                "type": "DELIVER"
             }
         }
     },
-    "account": "REDACTED"
+    "account": "+1234567890"
 }
