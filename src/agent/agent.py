@@ -1,10 +1,13 @@
 from langgraph.prebuilt import create_react_agent
 
 from langchain_openai import AzureChatOpenAI
+
 from src.models.azure_openai import azure_open_ai_config
+from src.logger import logger
 
 from .tools.summary_last_x_msgs import summarize_last_x_msgs
 from .tools.simple import simple_request
+from .tools.web_search import web_search_tool
 
 from typing import Optional
 
@@ -14,6 +17,7 @@ tool_selection_prompt_str = (
     Available tools:
     - summarize_last_x_msgs: Summarizes the last X messages.
     - simple_request: direct asnwer to user provided content, should be used as last-resort if no other tool is applicable.
+    - web_search_tool: searches the web for the user request, you should use it if you think that answering the message requires external information or in case that you are not able to answer the user request directly.
 
     Chat_id: {chat_id}
     Context: {context}
@@ -27,15 +31,16 @@ llm = AzureChatOpenAI(**azure_open_ai_config.model_dump())
 tools = [
     summarize_last_x_msgs,
     simple_request,
+    web_search_tool
 ]
 
 def print_stream(stream) -> str:
     for s in stream:
         message = s["messages"][-1]
         if isinstance(message, tuple):
-            print(message)
+            logger.warning(message)
         else:
-            message.pretty_print()
+            logger.warning(message.content)
     return message
 
 def invoke(msg: str, chat_id: Optional[str] = "", context: Optional[str] = "") -> str:
