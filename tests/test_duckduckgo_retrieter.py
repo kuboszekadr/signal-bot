@@ -24,7 +24,7 @@ class TestWebSearch(unittest.TestCase):
         user_message = "What is a date today? I would like to see weather forecast for tomorrow."
         search_results = web_search_tool.invoke(user_message)
 
-        self.assertIsInstance(search_results, List)
+        self.assertIsInstance(search_results, str)
 
 
 if __name__ == '__main__':

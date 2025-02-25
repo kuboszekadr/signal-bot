@@ -1,4 +1,5 @@
 from langgraph.prebuilt import create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 
 from langchain_openai import AzureChatOpenAI
 
@@ -18,7 +19,10 @@ tool_selection_prompt_str = (
     - summarize_last_x_msgs: Summarizes the last X messages.
     - simple_request: direct asnwer to user provided content, should be used as last-resort if no other tool is applicable.
     - web_search_tool: searches the web for the user request, you should use it if you think that answering the message requires external information or in case that you are not able to answer the user request directly.
-
+    - get_current_date: returns current date in YYYY-MM-DD format, you should use it if user request contains references to current date.
+    - add_days: performs simple date arithmetic, adding or subtracting days from a given date.
+    - openweather: provides weather information for a given location.
+    
     Chat_id: {chat_id}
     Context: {context}
 
@@ -28,11 +32,13 @@ tool_selection_prompt_str = (
 
 azure_open_ai_config.deployment_name = 'gpt-4o-researcher'  # FIXME
 llm = AzureChatOpenAI(**azure_open_ai_config.model_dump())
+
+openweather_tool = load_tools(["openweathermap-api"])
 tools = [
     summarize_last_x_msgs,
     simple_request,
     web_search_tool
-]
+] + openweather_tool
 
 def print_stream(stream) -> str:
     for s in stream:
