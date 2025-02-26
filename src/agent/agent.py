@@ -9,6 +9,7 @@ from src.logger import logger
 from .tools.summary_last_x_msgs import summarize_last_x_msgs
 from .tools.simple import simple_request
 from .tools.web_search import web_search_tool
+from .tools.date import get_current_date, add_days
 
 from typing import Optional
 
@@ -20,8 +21,8 @@ tool_selection_prompt_str = (
     - simple_request: direct asnwer to user provided content, should be used as last-resort if no other tool is applicable.
     - web_search_tool: searches the web for the user request, you should use it if you think that answering the message requires external information or in case that you are not able to answer the user request directly.
     - get_current_date: returns current date in YYYY-MM-DD format, you should use it if user request contains references to current date.
-    - add_days: performs simple date arithmetic, adding or subtracting days from a given date.
-    - openweather: provides weather information for a given location.
+    - add_days: performs simple date arithmetic, adding or subtracting days from a given date. If you use this tool, make sure to provide the date for which you are providing the answer.
+    - openweather: provides weather information for a given location at a given date.
     
     Chat_id: {chat_id}
     Context: {context}
@@ -37,7 +38,9 @@ openweather_tool = load_tools(["openweathermap-api"])
 tools = [
     summarize_last_x_msgs,
     simple_request,
-    web_search_tool
+    web_search_tool,
+    get_current_date,
+    add_days
 ] + openweather_tool
 
 def print_stream(stream) -> str:
