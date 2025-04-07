@@ -50,7 +50,7 @@ class SentMessage(BaseModel):
     sticker: Optional[Sticker] = None
     quote: Optional[Quote] = None
 
-   def is_ai_call(self):
+    def is_ai_call(self):
         if self.message is None:
             return False
         return (
