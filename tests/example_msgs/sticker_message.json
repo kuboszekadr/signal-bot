@@ -1,0 +1,29 @@
+{
+    "envelope": {
+        "source": "+12345678901",
+        "sourceNumber": "+12345678901",
+        "sourceUuid": "00000000-0000-0000-0000-000000000000",
+        "sourceName": "Example Name",
+        "sourceDevice": 1,
+        "timestamp": 1000000000000,
+        "serverReceivedTimestamp": 1000000000001,
+        "serverDeliveredTimestamp": 1000000000002,
+        "dataMessage": {
+            "timestamp": 1000000000000,
+            "message": null,
+            "expiresInSeconds": 0,
+            "viewOnce": false,
+            "sticker": {
+                "packId": "0000000000000000000000000000000",
+                "stickerId": 100
+            },
+            "groupInfo": {
+                "groupId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                "groupName": "Example Group",
+                "revision": 1,
+                "type": "DELIVER"
+            }
+        }
+    },
+    "account": "+12345678902"
+}
