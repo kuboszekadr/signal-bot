@@ -15,6 +15,10 @@ class Quote(BaseModel):
     text: str
     attachments: List[str]
 
+class Sticker(BaseModel):
+    packId: str
+    stickerId: int
+
 class DataMessage(BaseModel):
     timestamp: int
     message: str
@@ -39,10 +43,11 @@ class SentMessage(BaseModel):
     destinationNumber: Optional[str]
     destinationUuid: Optional[str]
     timestamp: int
-    message: str
+    message: Optional[str] = ""
     expiresInSeconds: int
     viewOnce: bool
     groupInfo: Optional[GroupInfo] = None
+    sticker: Optional[Sticker] = None
     quote: Optional[Quote] = None
 
     def is_ai_call(self):

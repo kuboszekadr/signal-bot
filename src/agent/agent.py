@@ -31,7 +31,6 @@ tool_selection_prompt_str = (
     """
 )
 
-azure_open_ai_config.deployment_name = 'gpt-4o-researcher'  # FIXME
 llm = AzureChatOpenAI(**azure_open_ai_config.model_dump())
 
 openweather_tool = load_tools(["openweathermap-api"])
