@@ -6,6 +6,7 @@ from pydantic import ValidationError
 from datetime import datetime as dt
 
 from src.models.signal import *
+from src.models.db import local_session, Chat
 from src.handlers import ReceiveProcess, SendMessage
 from src.logger import logger
 
@@ -24,6 +25,15 @@ def save_envelope(envelope: Envelope):
 
     with jsonlines.open(file_path, 'a') as writer:
         writer.write(envelope.model_dump_json())
+
+    message = Chat(
+        chat_id=envelope.chat_id(),
+        message=envelope.get_message().message,
+        envelope=envelope.model_dump()
+    )
+    session = local_session()
+    session.add(message)
+    session.commit()
 
 def monitor_incoming_msgs():
     receive_process = ReceiveProcess().start_receive_process()

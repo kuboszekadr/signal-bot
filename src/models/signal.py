@@ -51,6 +51,8 @@ class SentMessage(BaseModel):
     quote: Optional[Quote] = None
 
     def is_ai_call(self):
+        if self.message is None:
+            return False
         return (
             self
             .message.lower()
