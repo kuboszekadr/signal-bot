@@ -21,13 +21,16 @@ class Sticker(BaseModel):
 
 class DataMessage(BaseModel):
     timestamp: int
-    message: str
+    message: Optional[str] = None
     expiresInSeconds: int
     viewOnce: bool
     groupInfo: Optional[GroupInfo] = None
+    sticker: Optional[Sticker] = None
     quote: Optional[Quote] = None
 
     def is_ai_call(self):
+        if self.message is None:
+            return False
         return (
             self
             .message.lower()

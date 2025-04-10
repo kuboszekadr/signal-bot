@@ -5,3 +5,4 @@ logs/
 .logs/
 __pycache__/
 poetry.lock
+db/
