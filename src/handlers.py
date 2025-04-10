@@ -1,6 +1,8 @@
 import subprocess
 import logging
 
+from src.config import app_config
+
 logger = logging.getLogger(__name__)
 
 class ReceiveProcess:
@@ -9,8 +11,9 @@ class ReceiveProcess:
 
     def start_receive_process(self) -> subprocess.Popen:
         process = subprocess.Popen(
-            ['/home/azureuser/signal-cli/signal-cli-0.13.12/bin/signal-cli', 
-             '--log-file', './logs/signal-cli.log',
+            [
+            app_config.signal_cli_path, 
+             '--log-file', app_config.signal_cli_logs_path,
              '--verbose',
              '--output=json', 'receive', 
              '--timeout', '-1'
@@ -31,7 +34,7 @@ class ReceiveProcess:
 
 class SendMessage:
     def send_message(self, msg: str, params: list) -> subprocess.Popen:
-        args = ['/home/azureuser/signal-cli/signal-cli-0.13.12/bin/signal-cli', 'send']
+        args = [app_config.signal_cli_path, 'send']
         args += ['--message', msg]
         args += params
         

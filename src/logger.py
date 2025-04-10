@@ -3,11 +3,10 @@ import logging
 
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
+from src.config import app_config
 
+log_dir = app_config.logs_path
 
-log_dir = os.path.join(
-    './.logs',
-)
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
