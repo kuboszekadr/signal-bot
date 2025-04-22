@@ -2,6 +2,7 @@ from langgraph.prebuilt import create_react_agent
 from langchain_community.agent_toolkits.load_tools import load_tools
 
 from langchain_openai import AzureChatOpenAI
+from langchain.agents import create_tool_calling_agent
 
 from src.models.azure_openai import azure_open_ai_config
 from src.logger import logger

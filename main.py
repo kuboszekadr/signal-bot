@@ -11,7 +11,7 @@ from src.handlers import ReceiveProcess, SendMessage
 from src.logger import logger
 from src.config import app_config
 
-from src.agent.agent import invoke
+from src.agent.agent_20 import invoke
 
 def save_envelope(envelope: Envelope):
     file_path = os.path.join(
@@ -87,7 +87,7 @@ def monitor_incoming_msgs():
                 msg=llm_input, 
                 chat_id=envelope.chat_id(),
                 context=context
-            ).content
+            )
 
             chat_response = (
                 f"[{envelope.sourceName}]\n"

@@ -44,7 +44,11 @@ def load_chat_messages(chat_folder_path: str, n: int) -> List[Dict]:
             lines = list(reader)
             for message in reversed(lines):
                 if count < n:
-                    messages[count] = json.loads(message)
+                    message_json = json.loads(message)
+                    envelope = Envelope(**message_json)
+                    if envelope.get_message().message is None:
+                        continue
+                    messages[count] = envelope
                     count += 1
                 else:
                     break
@@ -60,10 +64,8 @@ def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     Returns:
         List[str]: A list of summarized messages grouped by the source name.
     """
-    envelopes_stream = [Envelope(**envelope) for envelope in chat_messages]
-
     envelopes_stream = sorted(
-        envelopes_stream, 
+        chat_messages, 
         key=lambda x: x.timestamp, 
         reverse=True
     )
@@ -75,7 +77,9 @@ def process_chat_messages(chat_messages: List[Dict]) -> List[str]:
     
     envelopes = []
     for _, group in envelopes_stream_grouped:
-        messages = [envelope.get_message().message for envelope in group]
+        messages = [envelope.get_message().message 
+                    for envelope in group 
+                ]
         envelopes.append("\n".join(messages))
     
     return envelopes
