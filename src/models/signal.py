@@ -1,5 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
+from enum import Enum
+
+class HandlerType(Enum):
+    BOT = "bot"
+    COMMAND = "command"
+    NONE = "none"
 
 class GroupInfo(BaseModel):
     groupId: str
@@ -28,14 +34,16 @@ class DataMessage(BaseModel):
     sticker: Optional[Sticker] = None
     quote: Optional[Quote] = None
 
-    def is_ai_call(self):
+    def get_handler(self) -> HandlerType:
         if self.message is None:
-            return False
-        return (
-            self
-            .message.lower()
-            .startswith("@bot")
-        )
+            return HandlerType.NONE
+        
+        msg = self.message.lower()
+        if msg.startswith("@bot"):
+            return HandlerType.BOT
+        elif msg.startswith("@command"):
+            return HandlerType.COMMAND 
+        return HandlerType.NONE
 
 class EditMessage(BaseModel):
     targetSentTimestamp: int
@@ -53,14 +61,17 @@ class SentMessage(BaseModel):
     sticker: Optional[Sticker] = None
     quote: Optional[Quote] = None
 
-    def is_ai_call(self):
+    def get_handler(self) -> HandlerType:
         if self.message is None:
-            return False
-        return (
-            self
-            .message.lower()
-            .startswith("@bot")
-        )
+            return HandlerType.NONE
+        
+        msg = self.message.lower()
+        if msg.startswith("@bot"):
+            return HandlerType.BOT
+        elif msg.startswith("@command"):
+            return HandlerType.COMMAND 
+        return HandlerType.NONE
+
 
 class SyncMessage(BaseModel):
     sentMessage: SentMessage

@@ -7,7 +7,8 @@ class AppConfig(BaseSettings):
 
     signal_cli_path: str
     signal_cli_logs_path: str
-
+    bot_name: str
+    
     class Config:
         env_prefix = 'APP_CONFIG_'    
 

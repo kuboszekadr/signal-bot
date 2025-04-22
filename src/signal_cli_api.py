@@ -33,9 +33,8 @@ class ReceiveProcess:
         self.kill()
 
 class SendMessage:
-    def send_message(self, msg: str, params: list) -> subprocess.Popen:
+    def send_message(self, params: list) -> subprocess.Popen:
         args = [app_config.signal_cli_path, 'send']
-        args += ['--message', msg]
         args += params
         
         process = subprocess.Popen(

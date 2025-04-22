@@ -5,13 +5,16 @@ import os
 from pydantic import ValidationError
 from datetime import datetime as dt
 
+from src.config import app_config
+from src.handlers.ai_call import ai_call_handler
+from src.handlers.command import command_call_handler
+
 from src.models.signal import *
 from src.models.db import local_session, Chat
-from src.handlers import ReceiveProcess, SendMessage
-from src.logger import logger
-from src.config import app_config
 
-from src.agent.agent_20 import invoke
+from src.signal_cli_api import ReceiveProcess, SendMessage
+from src.logger import logger
+
 
 def save_envelope(envelope: Envelope):
     file_path = os.path.join(
@@ -70,42 +73,34 @@ def monitor_incoming_msgs():
             
             save_envelope(envelope)
             
-            if not message.is_ai_call():
+            if message.get_handler() == HandlerType.NONE:
                 continue
 
             logger.info("AI call:\t %s", message.message)
-            receive_process.kill()
-
             # signal cli limitation - you can only have one process running at a time
             # TODO: maybe this can be fixed by using d-bus?
-            llm_input = message.message.replace("@bot", "").strip()
-            context = ''
-            if message.quote is not None:
-                context = message.quote.text
+            receive_process.kill()
 
-            llm_response = invoke(
-                msg=llm_input, 
-                chat_id=envelope.chat_id(),
-                context=context
-            )
+            switcher = {
+                HandlerType.BOT: ai_call_handler,
+                #OSTROŻNIE
+                HandlerType.COMMAND: command_call_handler,
+            }
+            handler = switcher.get(message.get_handler())
+            
+            msg_args = handler(message, envelope)
+            for args in msg_args:
+                if message.groupInfo is None:
+                    args.insert(0, envelope.chat_id())
+                else:
+                    #FIXME
+                    tmp = ['--group-id', message.groupInfo.groupId]
+                    tmp.extend(args)
+                    args = tmp
 
-            chat_response = (
-                f"[{envelope.sourceName}]\n"
-                f"{message.message}\n\n"
-                "[AuraBot]\n"
-                f"{llm_response}\n"
-                "[AuraBot]"
-            )
-
-            if message.groupInfo is None:
-                args = [envelope.chat_id()]
-            else:
-                args = ['--group-id', message.groupInfo.groupId]
-
-            SendMessage().send_message(
-                msg=chat_response,
-                params=args
-            )
+                SendMessage().send_message(
+                    params=args
+                )
             receive_process = ReceiveProcess().start_receive_process()
 
 monitor_incoming_msgs()
